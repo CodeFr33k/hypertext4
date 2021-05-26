@@ -94,18 +94,6 @@ export default {
   // preset: undefined,
 
   // Run tests from one or more projects
-  projects: [
-    {
-        displayName: 'server',
-        testEnvironment: 'jest-environment-node',
-        testMatch: ['**/server/**/*.test.js']
-    },
-    {
-        displayName: 'client',
-        testEnvironment: 'jsdom',
-        testMatch: ['**/src/**/*.test.js']
-    }
-  ],
 
   // Use this configuration option to add custom reporters to Jest
   // reporters: undefined,

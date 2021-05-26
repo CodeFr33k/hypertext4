@@ -1,5 +1,5 @@
 import config from 'store/config';
-import * as csp from 'js-csp';
+import csp from '../../github.com/CodeFr33k/js-csp';
 
 export default function createWebsocketChannel(
     messagesToServer

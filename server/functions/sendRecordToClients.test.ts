@@ -1,5 +1,5 @@
-import csp from 'js-csp';
-import sendRecordToClients from './sendRecordToClients.js';
+import csp from '../../github.com/CodeFr33k/js-csp';
+import sendRecordToClients from './sendRecordToClients.ts';
 import {jest} from '@jest/globals'
 
 it('send message to all clients', async (done) => {
@@ -8,14 +8,11 @@ it('send message to all clients', async (done) => {
         send: jest.fn(),
     };
     const clients = [client]; 
-    sendRecordToClients(chan, clients);    
+    const result = sendRecordToClients(chan, clients);    
     csp.go(function*() {
-        const payload = {
-            record: {},
-            done: csp.chan(),
-        };
-        yield csp.put(chan, payload);
-        yield csp.take(payload.done);
+        const record = {};
+        yield csp.put(chan, record);
+        yield csp.take(result);
         expect(client.send).toHaveBeenCalled();
         done();
     });

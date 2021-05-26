@@ -6,8 +6,8 @@
     "noImplicitReturns": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "noUnusedLocals": true,
-    "noImplicitAny": true,
+    "noUnusedLocals": false,
+    "noImplicitAny": false,
     "target": "ESNext",
     "module": "ESNext",
     "strict": true,
@@ -17,7 +17,8 @@
   },
   "include": [
     "src/**/*",
-    "server/**/*"
+    "server/**/*",
+    "github.com/**/*"
   ],
   "exclude": [
     "node_modules",

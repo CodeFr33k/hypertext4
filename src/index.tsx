@@ -16,8 +16,23 @@ if(!token) {
    localStorage.setItem('token', token);
 }
 
+const initialUsername = (
+    localStorage.getItem('username') || 
+    'anonymous'
+);
+
 const render = (App: any) => ReactDOM.hydrate(
-    <App history={history} token={token} />,
+    <App
+        history={history}
+        token={token}
+        initialUsername={initialUsername}
+        onUsernameChange={(username: string) => {
+            localStorage.setItem(
+                'username',
+                username
+            );    
+        }}
+    />,
     document.getElementById('root')
 )
 

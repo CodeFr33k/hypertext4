@@ -30,7 +30,11 @@ const App = observer(function(props: any) {
             const userRecords = yield csp.take(
                 fetchUserRecords(fetch)
             );
-            for(const userRecord of userRecords) {
+            const sortedRecords = userRecords.sort((a: any, b: any) => 
+                (a.created < b.created) ? -1 : 
+                ((a.created > b.created) ? 1 : 0)
+            );
+            for(const userRecord of sortedRecords) {
                 yield csp.put(http, userRecord);
             }
         });
@@ -50,7 +54,10 @@ const App = observer(function(props: any) {
                 </div>
                 <div className={styles.rhs}>
                     <UserRecords />
-                    <CommentBox />
+                    <CommentBox
+                        onUsernameChange={props.onUsernameChange}
+                        initialUsername={props.initialUsername}
+                    />
                 </div>
             </div>
         </Provider>

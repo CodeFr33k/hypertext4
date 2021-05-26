@@ -1,5 +1,5 @@
 import fetchUserRecords from './fetchUserRecords';
-import * as csp from 'js-csp';
+import csp from '../../github.com/CodeFr33k/js-csp';
 import {jest} from '@jest/globals'
 
 it('fetch user records', async (done) => {

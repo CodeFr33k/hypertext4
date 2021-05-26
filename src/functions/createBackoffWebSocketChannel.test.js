@@ -1,5 +1,6 @@
-import * as csp from 'js-csp';
+import csp from '../../github.com/CodeFr33k/js-csp';
 import createBackoffWebSocketChannel from './createBackoffWebSocketChannel';
+import {jest} from '@jest/globals'
 
 it('reconnect on close', async (done) => {
     const websocketChannel2 = csp.chan();

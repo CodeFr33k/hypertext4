@@ -49,7 +49,10 @@ export default {
     ]
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.css', '.styl']
+    extensions: ['.ts', '.tsx', '.js', '.css', '.styl'],
+    alias: {
+       'github.com': path.resolve(__dirname, '../github.com/'),
+    }
   },
   plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),

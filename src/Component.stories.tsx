@@ -14,7 +14,7 @@ export default {
 const record = {
     token: '123',
     lines: [
-        'abc',
+        'abc abc abc',
         'def',
         'light'
     ],
@@ -29,7 +29,9 @@ export const Records = () => (
 );
 
 export const UserRecords = () => (
-    <Provider userRecords={records}>
+    <Provider
+        userRecords={records}
+    >
         <UserRecordsStory />
     </Provider>
 );
@@ -38,8 +40,11 @@ const messagesToServer = csp.chan();
 export const CommentBox = () => (
     <Provider
         messagesToServer={messagesToServer}
+        token="abc"
     >
-        <CommentBoxStory />
+        <CommentBoxStory
+            initialUsername="user123"
+        />
     </Provider>
 );
 

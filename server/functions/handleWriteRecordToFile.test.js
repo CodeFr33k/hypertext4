@@ -1,4 +1,4 @@
-import csp from 'js-csp';
+import csp from '../../github.com/CodeFr33k/js-csp';
 import handleWriteRecordToFile from './handleWriteRecordToFile';
 import {jest} from '@jest/globals'
 
@@ -25,7 +25,7 @@ it('write record to file', async (itDone) => {
         expect(fs.appendFileSync)
             .toHaveBeenCalledWith(
                 expect.anything(),
-                'abc',
+                'abc\n',
             );
         itDone();
     });

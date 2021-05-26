@@ -1,15 +1,15 @@
-import * as csp from 'js-csp';
+import csp from '../../github.com/CodeFr33k/js-csp';
 
 export default function(chan, records) {
     const chan2 = csp.go(function*() {
-        const lines = yield csp.take(chan);
-        if(lines === csp.CLOSED) {
-            chan2.close();
-            return;
+        while(true) {
+            const record = yield csp.take(chan);
+            if(record === csp.CLOSED) {
+                chan2.close();
+                return;
+            }
+            records.push(record);
         }
-        const record = {
-            lines,
-        };
-        records.replace([record]);
     });
+    return chan2;
 }

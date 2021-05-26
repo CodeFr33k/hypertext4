@@ -15,12 +15,15 @@ export default function(recordToFile, fs) {
                 fs.writeFileSync(file, '');
             }
             for(const line of record.lines) {
-                fs.appendFileSync(file, line || '\n\n');
+                fs.appendFileSync(
+                    file, 
+                    line === '' ? '\n' : line + '\n'
+                );
             }
             if(done) {
                 csp.putAsync(done);
             }
-            csp.putAsync(result, {record, done});
+            csp.putAsync(result, record);
         }
     });
     return result;

@@ -1,9 +1,9 @@
-import csp from 'js-csp';
+import csp from '../../github.com/CodeFr33k/js-csp';
 import handleMessageFromClient from './handleMessageFromClient';
 
-it('send new record to all clients', async (done) => {
+it('transform client message to record', async (done) => {
     const payload = {
-        text: 'xyz\n123',
+        text: 'xyz\n123\n',
         token: 'abc',
     };
     const messages = csp.chan();
@@ -12,7 +12,14 @@ it('send new record to all clients', async (done) => {
     );
     csp.go(function*() {
         const {record} = yield csp.take(chan);
-        expect(record.lines).toHaveLength(2);
+        expect(record.lines).toEqual(expect.arrayContaining([
+            'xyz',
+            '123',
+            '(`',
+            '\ttoken = abc',
+            ')',
+            '',
+        ]));
         done();
     });
     csp.putAsync(messages, JSON.stringify(payload));

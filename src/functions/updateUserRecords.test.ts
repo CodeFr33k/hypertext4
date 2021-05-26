@@ -3,7 +3,7 @@ import {
     observe,
     observable,
 } from 'mobx';
-import * as csp from 'js-csp';
+import csp from '../../github.com/CodeFr33k/js-csp';
 
 it('update records', async (done: any) => {
     const records = observable.array();
@@ -15,4 +15,5 @@ it('update records', async (done: any) => {
         messages,
         records
     );    
+    csp.putAsync(messages, 'abc');
 });

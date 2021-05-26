@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import styles from './CommentBox.styl';
 import * as csp from 'js-csp';
+import Blockies from 'react-blockies';
 
 export default inject(
     'messagesToServer',
@@ -14,16 +15,29 @@ export default inject(
 )(observer(({
     messagesToServer,
     token,
+    initialUsername,
+    onUsernameChange,
 }: any) => {
+    const [username, setUsername] = useState(initialUsername);
     const [value, setValue] = useState(`hello\n`);
+    const handleUsernameChange = (e: any) => {
+        setUsername(e.target.value);
+    }
     const handleChange = (e: any) => {
-        setValue(e.target.value);
+        const nextValue = e.target.value;
+        if(nextValue.slice(-2) === '\n\n') {
+            setValue(value);
+            return;
+        }
+        setValue(nextValue);
     }
     const handleClick = () => {
         csp.putAsync(messagesToServer, {
+            username,
             token,
             text: value
         });
+        onUsernameChange(username);
         setValue('');
     };
     return (
@@ -31,6 +45,23 @@ export default inject(
             <div
                 className={styles.commentBox}
             >
+                <div
+                    className={styles.identiconBox}
+                >
+                    <Blockies
+                        seed={token}
+                        className={styles.identicon}
+                    />
+                </div>
+                <div
+                    className={styles.usernameBox}
+                >
+                    <input
+                        className={styles.username}
+                        value={username}
+                        onChange={handleUsernameChange}
+                    />
+                </div>
                 <div
                     className={styles.textareaBox}
                 >

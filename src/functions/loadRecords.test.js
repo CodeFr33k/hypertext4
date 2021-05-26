@@ -1,4 +1,4 @@
-import * as csp from 'js-csp';
+import csp from '../../github.com/CodeFr33k/js-csp';
 import mobx from 'mobx';
 import loadRecords from './loadRecords';
 

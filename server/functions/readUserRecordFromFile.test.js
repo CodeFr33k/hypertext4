@@ -6,7 +6,14 @@ it('read user record from file', async (done) => {
     const fs = {
         readFile: jest.fn().mockImplementation(
             (filename, encoding, callback) => 
-                callback(undefined, 'abc\n123\n\ndef\n'),
+                callback(
+                    undefined, 
+                    'abc\n123\n' +
+                    '(\`\n' + 
+                    '\tcreated = 123-123\n' +
+                    ')\n\n' +
+                    'def\n'
+                ),
         ),
     };
     csp.go(function*() {
@@ -18,12 +25,13 @@ it('read user record from file', async (done) => {
         const {record} = yield csp.take(
             readUserRecordFromFile(chan, fs)
         );
-        expect(record).toEqual({
-            lines: [
+        expect(record.created).toEqual('123-123');
+        expect(record.lines).toEqual(
+            expect.arrayContaining([
                 'abc',
                 '123',
-            ]
-        });
+            ])
+        );
         done();
     });
 });

@@ -12,7 +12,7 @@ const __dirname = dirname(__filename);
 const res = p => path.resolve(__dirname, p)
 
 const nodeModules = res('../node_modules')
-const entry = res('../server/render.js')
+const entry = res('../server/render.ts')
 const output = res('../buildServer')
 
 // if you're specifying externals to leave unbundled, you need to tell Webpack
@@ -68,7 +68,10 @@ export default {
     ]
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.css', '.styl']
+    extensions: ['.ts', '.tsx', '.js', '.css', '.styl'],
+    alias: {
+       'github.com': path.resolve(__dirname, '../github.com/'),
+    }
   },
   plugins: [
     new WriteFilePlugin(),
