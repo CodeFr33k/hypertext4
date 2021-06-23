@@ -9,7 +9,7 @@
   "type": "module",
   "scripts": {
     "start": "npm run clean && cross-env NODE_ENV=development node --loader=ts-node/esm server/index.ts",
-    "start:prod": "npm run clean && cross-env NODE_ENV=production node server/index.js",
+    "start:prod": "npm run clean && cross-env NODE_ENV=production node --loader=ts-node/esm server/index.ts",
     "clean": "rimraf buildClient buildServer",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",

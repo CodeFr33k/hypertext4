@@ -9,7 +9,7 @@ const __dirname = dirname(__filename);
 
 const res = p => path.resolve(__dirname, p)
 
-const entry = res('../server/render.js')
+const entry = res('../server/render.ts')
 const output = res('../buildServer')
 
 export default {
