@@ -2,6 +2,7 @@ import React from 'react';
 import CommentBoxStory from 'components/CommentBox';
 import RecordsStory from 'components/Records';
 import UserRecordsStory from 'components/UserRecords';
+import ReloadStory from 'components/Reload';
 import { Provider } from 'mobx-react';
 import * as csp from 'js-csp';
 
@@ -21,6 +22,15 @@ const record = {
 };
 
 const records = [record]; 
+
+export const Reload = () => (
+    <Provider
+        records={records}
+        nextRecords={records}
+    >
+        <ReloadStory />
+    </Provider>
+);
 
 export const Records = () => (
     <Provider records={records}>

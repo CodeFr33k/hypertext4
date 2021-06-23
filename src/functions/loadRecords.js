@@ -1,4 +1,4 @@
-import csp from '../../github.com/CodeFr33k/js-csp';
+import csp from '../../github.com/CodeFr33k/js-csp/index.js';
 
 export default function(chan, records) {
     const chan2 = csp.go(function*() {

@@ -22,6 +22,7 @@ import messagesFromClient from './channels/messagesFromClient.js';
 import readRecordFromText from '../github.com/CodeFr33k/camljs2/readRecordFromText.js';
 import readFile from '../github.com/CodeFr33k/camljs2/readFile.js';
 import csp from '../github.com/CodeFr33k/js-csp/index.js';
+import loadRecords from '../src/functions/loadRecords.js';
 import http from 'http';
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
@@ -30,6 +31,8 @@ const outputPath = clientConfig.output.path
 const DEV = process.env.NODE_ENV === 'development'
 const app = express()
 app.use(noFavicon())
+app.enable('etag');
+app.set('etag', 'strong');
 
 let isBuilt = false
 const server = http.createServer(app);
@@ -40,10 +43,31 @@ const done = () => !isBuilt
     console.log('BUILD COMPLETE -- Listening @ http://localhost:3000'.magenta)
   })
 
-const records = [];
+let records = [];
+app.get('/api/records', (_req, res) => {
+    res.send(records);
+});
+
+const chan = csp.chan();
+csp.putAsync(chan, '/var/lib/hypertext4/abc.caml');
+
+setInterval(function() {
+    console.log('reload file');
+    records.length = 0;
+    csp.putAsync(chan, '/var/lib/hypertext4/abc.caml');
+}, 5000);
+
+loadRecords(
+    readRecordFromText(
+        readFile(chan)
+    ),
+    records
+);
+
+const userRecords = [];
 
 app.get('/api/user/records', (_req, res) => {
-    res.send(records);
+    res.send(userRecords);
 });
 
 if (DEV) {
@@ -90,7 +114,7 @@ updateUserRecords(
             ),
         )
     ),
-    records,
+    userRecords,
 );
 
 sendRecordToClients(
@@ -99,7 +123,7 @@ sendRecordToClients(
             handleMessageFromClient(messagesFromClient), 
             fs
         ),
-        records,
+        userRecords,
     ),
     wss.clients
 );

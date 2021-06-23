@@ -10,15 +10,20 @@ import styles from './App.styl'
 import CommentBox from 'components/CommentBox';
 import Records from 'components/Records';
 import UserRecords from 'components/UserRecords';
+import Reload from 'components/Reload';
 import records from 'store/records';
 import userRecords from 'store/userRecords';
 import updateUserRecords from 'functions/updateUserRecords';
 import createWebSocketChannel from 'functions/createWebSocketChannel';
 import createBackoffWebSocketChannel from 'functions/createBackoffWebSocketChannel';
 import fetchUserRecords from 'functions/fetchUserRecords';
+import fetchRecords from 'functions/fetchRecords';
 import * as csp from 'js-csp';
+import {observable} from 'mobx';
 
 const messagesToServer = csp.chan();
+const nextRecords = observable.array();
+let prevHash; 
 
 const App = observer(function(props: any) {
     useEffect(() => {
@@ -37,9 +42,25 @@ const App = observer(function(props: any) {
             for(const userRecord of sortedRecords) {
                 yield csp.put(http, userRecord);
             }
+            // call to flush initial status 200 response
+            const result = fetchRecords(fetch);
+            const [nextHash] = yield csp.take(result);
+            prevHash = nextHash;
         });
         const chan = csp.operations.merge([websocket, http]);
         updateUserRecords(chan, userRecords);
+        setInterval(function() {
+            csp.go(function*() {
+                const result = fetchRecords(fetch);
+                const [nextHash, nextRecordsTmp] = yield csp.take(result);
+                if(prevHash === nextHash) {
+                    return;
+                } 
+                prevHash = nextHash;
+                nextRecords.clear();
+                nextRecords.replace(nextRecordsTmp);
+            });
+        }, 2000);
     }, []);
     return (
         <Provider
@@ -47,9 +68,11 @@ const App = observer(function(props: any) {
             records={records}
             messagesToServer={messagesToServer}
             token={props.token}
+            nextRecords={nextRecords}
         >
             <div className={styles.app}>
                 <div className={styles.lhs}>
+                    <Reload />
                     <Records />
                 </div>
                 <div className={styles.rhs}>

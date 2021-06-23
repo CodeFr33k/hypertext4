@@ -5,21 +5,21 @@ import { flushChunkNames } from 'react-universal-component/server'
 import flushChunks from 'webpack-flush-chunks'
 import App from '../src/components/App'
 import loadRecords from '../src/functions/loadRecords';
-import records from '../src/store/records';
 import readFile from 'github.com/CodeFr33k/camljs2/readFile';
 import readRecordFromText from 'github.com/CodeFr33k/camljs2/readRecordFromText.ts';
 import csp from 'github.com/CodeFr33k/js-csp';
 import {
     observe,
+    observable,
 } from 'mobx';
 
 export default ({ clientStats }) => async (req: any, res) => {
     const chan = csp.go(function*() {
         const history = createHistory({ initialEntries: [req.path] })
         const chan2 = csp.chan();
-        records.clear();
         csp.putAsync(chan2, '/var/lib/hypertext4/abc.caml');
         csp.putAsync(chan2, '');
+        const records = observable.array();
         yield loadRecords(
             readRecordFromText(
                 readFile(chan2)
