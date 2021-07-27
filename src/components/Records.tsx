@@ -15,7 +15,7 @@ observer((props: any) => {
                         key={record.image}
                         className={styles.imageBox}
                     >
-                        <img width="400px" src={record.image} />
+                        <img width="240px" src={record.image} />
                     </div>
                     <div 
                         className={styles.lineBox}
