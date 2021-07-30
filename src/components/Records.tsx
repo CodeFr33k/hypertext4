@@ -15,7 +15,14 @@ observer((props: any) => {
                         key={record.image}
                         className={styles.imageBox}
                     >
-                        <img width="240px" src={record.image} />
+                        <img
+                            width={record.width}
+                            src={record.image}
+                            style={{
+                                width: record.width || '240px',
+                                maxWidth: record.maxWidth || 'none',
+                            }}
+                        />
                     </div>
                     <div 
                         className={styles.lineBox}
