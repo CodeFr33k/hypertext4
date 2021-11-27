@@ -5,7 +5,7 @@ import {
 } from 'mobx-react';
 import styles from './Records.styl';
 
-export default inject('records')(
+export default inject()(
 observer((props: any) => {
     const records = props.records.map((record: any) => {
         if(record.image) {
@@ -24,9 +24,31 @@ observer((props: any) => {
                             }}
                         />
                     </div>
+                    <br />
+                </>
+            );
+        }
+        if(record.video) {
+            return (
+                <>
                     <div 
-                        className={styles.lineBox}
-                    />
+                        key={record.video}
+                        className={styles.imageBox}
+                    >
+                        <iframe
+                            width={record.width}
+                            height={record.height}
+                            src={record.video}
+                            title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                            style={{
+                                width: record.width || '240px',
+                                maxWidth: record.maxWidth || 'none',
+                            }}
+                        />
+                    </div>
                 </>
             );
         }

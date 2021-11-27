@@ -26,6 +26,16 @@ export default ({ clientStats }) => async (req: any, res) => {
             ),
             records
         );
+        const chan3 = csp.chan();
+        csp.putAsync(chan3, '/var/lib/hypertext4/def.caml');
+        csp.putAsync(chan3, '');
+        const imageRecords = observable.array();
+        yield loadRecords(
+            readRecordFromText(
+                readFile(chan3)
+            ),
+            imageRecords
+        );
         const app = ReactDOM.renderToString(React.createElement(App, {history: history}, null))
         const chunkNames = flushChunkNames()
         const {
@@ -45,9 +55,10 @@ export default ({ clientStats }) => async (req: any, res) => {
         <link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico">
         <link data-n-head="ssr" rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
         <link data-n-head="ssr" rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">       <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>codefr33k.live</title>
+        <title>julianphillipe.live</title>
         <script>
             window.recordsFromServer = ${JSON.stringify(records)}
+            window.imageRecordsFromServer = ${JSON.stringify(imageRecords)}
         </script>
         ${styles}
         </head>

@@ -4,11 +4,13 @@ import createHistory from 'history/createBrowserHistory'
 import App from 'components/App'
 import 'common.styl';
 import records from 'store/records'; 
+import imageRecords from 'store/imageRecords'; 
 import {v4} from 'uuid';
 
 const history = createHistory()
 
 records.replace((window as any).recordsFromServer);
+imageRecords.replace((window as any).imageRecordsFromServer);
 
 let token = localStorage.getItem('token');
 if(!token) {

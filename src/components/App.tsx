@@ -12,6 +12,7 @@ import Records from 'components/Records';
 import UserRecords from 'components/UserRecords';
 import Reload from 'components/Reload';
 import records from 'store/records';
+import imageRecords from 'store/imageRecords';
 import userRecords from 'store/userRecords';
 import updateUserRecords from 'functions/updateUserRecords';
 import createWebSocketChannel from 'functions/createWebSocketChannel';
@@ -62,18 +63,26 @@ const App = observer(function(props: any) {
             });
         }, 2000);
     }, []);
+
     return (
         <Provider
             userRecords={userRecords}
-            records={records}
             messagesToServer={messagesToServer}
+            records={records}
             token={props.token}
             nextRecords={nextRecords}
         >
             <div className={styles.app}>
                 <div className={styles.lhs}>
                     <Reload />
-                    <Records />
+                    <div className={styles.records}>
+                        <div className={styles.wordRecords}>
+                            <Records records={records} />
+                        </div>
+                        <div className={styles.imageRecords}>
+                            <Records records={imageRecords} />
+                        </div>
+                    </div>
                 </div>
                 <div className={styles.rhs}>
                     <UserRecords />
